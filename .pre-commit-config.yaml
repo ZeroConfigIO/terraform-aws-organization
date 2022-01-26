@@ -19,21 +19,15 @@ repos:
     rev: v0.1.17
     hooks:
       - id: tflint
-        args:
-          - "--module"
-          - "--deep"
-          - "--config=.tflint.hcl"
       - id: terraform-validate
       - id: terraform-fmt
-      - id: shellcheck
+      - id: shellchec
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.62.3
     hooks:
       - id: terraform_tfsec
       - id: terraform_docs
-        args:
-          - "--args=--hide providers --sort-by-required"
       - id: checkov
 
   - repo: https://github.com/pecigonzalo/pre-commit-terraform-vars

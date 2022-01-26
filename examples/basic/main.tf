@@ -9,6 +9,16 @@ locals {
     "production"
   ]
 
+  organization_aws_service_access_principals = [
+    "aws-artifact-account-sync.amazonaws.com",
+    "cloudtrail.amazonaws.com",
+    "securityhub.amazonaws.com",
+    "guardduty.amazonaws.com",
+    "config.amazonaws.com",
+    "fms.amazonaws.com",
+    "sso.amazonaws.com"
+  ]
+
   organization_accounts = {
     security = {
       email       = "aws+security@igorjs.io",
