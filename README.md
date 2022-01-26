@@ -2,7 +2,7 @@
 
 ---
 
-![Terraform validation](https://github.com/igorjs/terraform-aws-organization/workflows/Terraform%20validation/badge.svg?branch=master)
+![Terraform validation](https://github.com/igorjs/terraform-aws-organization/workflows/Terraform%20validation/badge.svg?branch=main)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-success?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 ## Description
