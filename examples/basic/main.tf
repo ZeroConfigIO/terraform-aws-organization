@@ -21,17 +21,17 @@ locals {
 
   organization_accounts = {
     security = {
-      email       = "aws+security@igorjs.io",
+      email       = "aws+security@example.com",
       parent_name = "sec",
       tags        = local.tags
     },
     stage = {
-      email     = "aws+development@igorjs.io",
+      email     = "aws+development@example.com",
       parent_id = "dev",
       tags      = local.tags
     },
     production = {
-      email     = "aws+production@igorjs.io",
+      email     = "aws+production@example.com",
       parent_id = "prod",
       tags      = local.tags
     },
@@ -39,8 +39,8 @@ locals {
 }
 
 module "organization" {
-  source                = "../../"
-  organization_accounts = local.organization_accounts
-  organization_units    = local.organization_units
+  source                                     = "../../"
+  organization_accounts                      = local.organization_accounts
+  organization_units                         = local.organization_units
   organization_aws_service_access_principals = local.organization_aws_service_access_principals
 }
