@@ -1,0 +1,16 @@
+on: [pull_request]
+
+jobs:
+  tfsec:
+    runs-on: ubuntu-latest
+
+    name: Terraform Security
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.0.2
+        with:
+          tfsec_vars: --soft-fail
+          github_token: ${{ github.token }}
