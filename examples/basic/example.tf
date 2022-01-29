@@ -5,7 +5,7 @@ locals {
 }
 
 module "organization" {
-  source = "git::https://github.com/igorjs/terraform-aws-organization.git"
+  source = "git::https://github.com/zeroconfigio/terraform-aws-organization.git"
 
   organization_accounts = {
     security = {

@@ -10,31 +10,29 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
 
-  # - repo: https://github.com/psf/black
-  #   rev: 21.12b0
-  #   hooks:
-  #     - id: black
-
-  - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.62.3
-    hooks:
-      - id: terraform_providers_lock
-      - id: terraform_validate
-      - id: terraform_tflint
-      - id: terraform_tfsec
-      - id: terraform_fmt
-      - id: terraform_docs
-      - id: checkov
-      - id: terrascan
-        args: [--args=--non-recursive] # avoids scan errors on subdirectories without Terraform config files
-
   - repo: https://github.com/pecigonzalo/pre-commit-terraform-vars
     rev: v1.0.0
     hooks:
       - id: terraform-vars
+        name: unused vars
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.1.0
     hooks:
       - id: detect-secrets
+        name: detect secrets
         args: ["--baseline", ".secrets.baseline"]
+
+  - repo: local
+    hooks:
+      - id: docker-terraform-tfsec
+        name: check security
+        language: docker_image
+        entry: --platform=linux/amd64 aquasec/tfsec:latest
+        files: \.tf$
+
+      - id: docker-terraform-tflint
+        name: lint terraform files
+        language: docker_image
+        entry: --platform=linux/amd64 ghcr.io/terraform-linters/tflint-bundle:latest
+        files: \.tf$
