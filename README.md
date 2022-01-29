@@ -4,10 +4,112 @@
 
 ![Terraform validation](https://github.com/igorjs/terraform-aws-organization/workflows/Terraform%20validation/badge.svg?branch=main)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-success?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
 Terraform module which sets up AWS Organization in the root account.
+
+## Usage
+
+```
+module "organization" {
+  source = "git::https://github.com/igorjs/terraform-aws-organization.git"
+
+  organization_accounts = {
+    security = {
+      email       = "aws+security@example.com",
+      parent_name = "sec",
+      tags        = {
+        "provisioned" = "terraform"
+        "account"     = "security"
+      }
+    },
+    stage = {
+      email     = "aws+development@example.com",
+      parent_id = "dev",
+      tags        = {
+        "provisioned" = "terraform"
+        "account"     = "stage"
+      }
+    },
+    production = {
+      email     = "aws+production@example.com",
+      parent_id = "prod",
+      tags        = {
+        "provisioned" = "terraform"
+        "account"     = "production"
+      }
+    },
+  }
+
+  organization_units = [
+    "security",
+    "stage",
+    "production"
+  ]
+
+  organization_aws_service_access_principals = [
+    "cloudtrail.amazonaws.com",
+    "securityhub.amazonaws.com",
+    "guardduty.amazonaws.com",
+    "config.amazonaws.com",
+    "fms.amazonaws.com",
+    "sso.amazonaws.com"
+  ]
+}
+```
+
+## Dev Dependencies
+
+### Pre-Commit
+
+#### Installation
+
+Before you can run hooks, you need to have the [pre-commit](https://pre-commit.com/) package manager installed.
+
+Using pip:
+
+```
+pip install pre-commit
+```
+
+In a python project, add the following to your requirements.txt (or requirements-dev.txt):
+
+```
+pre-commit
+```
+
+Using homebrew:
+
+```
+brew install pre-commit
+```
+
+Using conda (via conda-forge):
+
+```
+conda install -c conda-forge pre-commit
+```
+
+##### Install the git hook scripts
+
+Run pre-commit install to set up the git hook scripts
+
+```
+$ pre-commit install
+pre-commit installed at .git/hooks/pre-commit
+```
+
+now `pre-commit` will run automatically on `git commit`!
+
+##### (optional) Run against all the files
+
+it's usually a good idea to run the hooks against all of the files when adding new hooks (usually pre-commit will only run on the changed files during git hooks)
+
+```
+$ pre-commit run -a
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -58,3 +160,11 @@ No modules.
 | <a name="output_organization_master_account_id"></a> [organization_master_account_id](#output_organization_master_account_id)                      | Management account id                                                 |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+## License
+
+[MIT License](./LICENSE)
+
+### Author
+
+[igor.js](https://github.com/igorjs) on behalf of [ZeroConfig.io](https://github.com/zeroconfigio)
