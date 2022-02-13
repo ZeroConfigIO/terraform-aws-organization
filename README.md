@@ -2,7 +2,7 @@
 
 ---
 
-![CI](https://github.com/zeroconfigio/terraform-aws-organization/workflows/CI/badge.svg?branch=main)
+[![CI](https://github.com/ZeroConfigIO/terraform-aws-organization/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ZeroConfigIO/terraform-aws-organization/actions/workflows/ci.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-success?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
