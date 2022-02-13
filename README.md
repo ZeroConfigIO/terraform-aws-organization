@@ -110,29 +110,9 @@ module "organization" {
 
 ## Contributing
 
-### Bug Reports & Feature Requests
+See [CONTRIBUTING](CONTRIBUTING) for full details.
 
-Please use the [issue tracker](https://github.com/zeroconfigio/terraform-aws-organization/issues) to report any bugs or file feature requests.
-
-### Developing
-
-If you are interested in being a contributor and want to get involved in developing this project or help out with our other projects, we would love to hear from you! Send us an email.
-
-In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
-
-1.  **Fork** the repo on GitHub
-2.  **Clone** the project to your own machine
-3.  **Commit** changes to your own branch
-4.  **Push** your work back up to your fork
-5.  Submit a **Pull Request** so that we can review your changes
-
-**NOTE:** Be sure to merge the latest changes from "upstream" before making a pull request!
-
-#### Dev Dependencies
-
-##### Pre-Commit
-
-###### Installation
+### Configuring the Environment
 
 Before you can run hooks, you need to have the [pre-commit](https://pre-commit.com/) package manager installed.
 
@@ -154,7 +134,7 @@ Using homebrew:
 brew install pre-commit
 ```
 
-###### Install the git hook scripts
+### Install the git hook scripts
 
 Run pre-commit install to set up the git hook scripts
 
@@ -165,7 +145,7 @@ pre-commit installed at .git/hooks/pre-commit
 
 now `pre-commit` will run automatically on `git commit`!
 
-###### (optional) Run against all the files
+### (optional) Manually run against all the files
 
 it's usually a good idea to run the hooks against all of the files when adding new hooks (usually pre-commit will only run on the changed files during git hooks)
 
@@ -173,22 +153,12 @@ it's usually a good idea to run the hooks against all of the files when adding n
 $ pre-commit run -a
 ```
 
-## Copyrights
-
-Copyright © 2021-2022 [ZeroConfig.io](https://zeroconfig.io)
-
 ## License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 See [LICENSE](LICENSE) for full details.
 
-## Trademarks
+## Author
 
-All other trademarks referenced herein are the property of their respective owners.
-
-## About
-
-This project is maintained and funded by [ZeroConfig.io](https://zeroconfig.io).
-
-Author [igor.js](https://github.com/igorjs)
+This project is maintained and funded by [ZeroConfig.io](https://zeroconfig.io) and [igor.js](https://github.com/igorjs)
