@@ -1,0 +1,108 @@
+name: CI
+
+on: [push]
+
+jobs:
+  precommit:
+    name: Pre-commit Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: "cache: pre-commit dependencies"
+        id: cache-pre-commit-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pre-commit
+            ~/.cache/pip
+          key: ${{ runner.os }}-pip-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-pre-commit-
+      - name: "run: pre-commit checks"
+        uses: pre-commit/action@v2.0.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          SKIP: docker-terraform-tfsec,docker-terraform-tflint
+          AWS_DEFAULT_REGION: "ap-southeast-2"
+
+  checkov:
+    name: Policy Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./
+          quiet: true # optional: display only failed checks
+          # soft_fail: true # optional: do not return an error code if there are failed checks
+          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+          output_format: cli # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          # log_level: DEBUG # optional: set log level. Default WARNING
+          # config_file: path/this_file
+          # baseline: cloudformation/.checkov.baseline # optional: Path to a generated baseline file. Will only report results not in the baseline.
+          # container_user: 1000 # optional: Define what UID and / or what GID to run the container under to prevent permission issues
+
+  tfsec:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: TFSec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.0.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/terraform-linters/tflint-bundle:latest
+      volumes:
+        - ${{ github.workspace }}:/data
+    steps:
+      - uses: actions/checkout@master
+      - run: tflint
+
+  fmt:
+    name: Code Format
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/terraform:latest
+    steps:
+      - uses: actions/checkout@master
+      - run: terraform fmt --recursive -check
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/terraform:latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Validate Code
+        env:
+          AWS_REGION: "us-east-1"
+          TF_WARN_OUTPUT_ERRORS: 1
+          # TF_VAR_vpc_id: "vpc-123456"
+          # TF_VAR_subnets: '["subnet-12345a"]'
+          # TF_VAR_workers_ami_id: "ami-123456"
+          # TF_VAR_cluster_name: "test_cluster"
+        run: |
+          terraform init
+          terraform validate
+      - name: Validate Examples
+        run: |
+          for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
+            cd $example
+            terraform init
+            terraform validate
+            cd -
+          done
